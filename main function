@@ -1,49 +1,92 @@
+
 br main
+
+
 ;=======================================================================
+
 X1: .BLOCK 2
+
 X2: .BLOCK 2
+
 Y1: .BLOCK 2
+
 Y2: .BLOCK 2
+
 calc: .BLOCK 2
 
-number: .ASCII "Enter a number \x00"
-function: .ASCII "Enter 1 to multiply, Enter 2 to divide, Enter 3 for N factorial, Enter 4 for exponentation, Enter 5 to convert to binary \x00"
-divide: .ASCII "Enter a 2nd number to divide by \x00"
-multi: .ASCII "Enter a 2nd number to multiply by \x00"
-expon: .ASCII "Enter a number to raise to a power \x00"
+
+
+number: .ASCII "Enter a number: \x00"
+
+function: .ASCII "Enter 1 to multiply, Enter 2 to divide, Enter 3 for N factorial, Enter 4 for exponentation, Enter 5 to convert to binary: \x00"
+
+divide: .ASCII "Enter a 2nd number to divide by: \x00"
+
+multi: .ASCII "Enter a 2nd number to multiply by: \x00"
+
+expon: .ASCII "Enter a number to raise to a power: \x00"
+
 remain: .ASCII " Remainder: \x00"
+
 ;=================================================================
+
 main: stro number,d
+
       deci X1,d
+
       stro function,d
+
       deci calc,d
+
       ldwa calc,d
+
       cpwa 1,i
+
       breq mult
+
       cpwa 2,i
-      breq div1
+
+      breq div4
+
       cpwa 3,i
-      breq nfct4
+
+      breq nfct4 
+
       cpwa 4,i
+
       breq expo
+
       cpwa 5,i
+
       breq bicovert
 
+
+
 mult: deco 111,i
+
       br return
+
 ;====================================================================================================
+
 ;Ayo
+
 div1:    STRO divide,d
+
          DECI X2,d
+
          LDWA X2,d
+
          LDWX 0,i
+
    
+
          CPWA 0,i
+
          BREQ div1_4
 
+
 div1_2:  CPWA X1,d 
-         BRGT div1_3
-         
+         BRGT div1_3         
          ADDA X2,d
          ADDX 1,i
          br div1_2
@@ -63,42 +106,113 @@ STR1:          .ASCII "Undefined.\x00"
 
 div1_4:   STRO STR1,d
 ;==================================================================================================================
+; Maya
+div4:   STRO divide,d
+        DECI X2,d
+        LDWA X1,d
+        LDWX 0,i   
+
+        CPWX X2,d
+        BREQ div4zero
+
+div4loop: SUBA   X2,d
+          BRLT   div4stre
+          ADDX   1,i
+          BR     div4loop
+
+div4stre: ADDA   X2,d
+          STWA   X2,d
+
+          STWX   Y1,d
+          DECO   Y1,d 
+          STRO remain,d
+          DECO   X2, d    
+          br return
+
+
+div4mes: .ASCII "Undefined\x00"
+div4zero: STRO div4mes,d 
+
+
+;==================================================================================================================
+
 ;Briana
+
 nfct4: LDWA X1,d
        STWA X1, d 
        SUBA 1,i 
        STWA Y2,d 
        STWA X2, d 
-     
+
 nfct4_2: CALL nfct4_3
          CPWX 1,i 
          BREQ nfct4_6 ;while(A != 1) 
          SUBX 1,i 
          STWX Y2,d 
          BR nfct4_2
-       
+
 nfct4_3: LDWA 0,i 
-         LDWX 0,i 
-       
+         LDWX 0,i        
+
 nfct4_4: CPWX Y2,d 
          BREQ nfct4_5 ;while(X != X1) 
            
          ADDA X1,d 
          ADDX 1,i 
-         BR nfct4_4 
-            
+         BR nfct4_4      
+
 nfct4_5: STWA Y1,d 
          STWA X1, d 
          RET 
-     
+
+
 nfct4_6: DECO Y1, d 
          br return
 ;=========================================================================================================
+;Deandra
+
+;nfact2:   STWA    X1, d
+;          LDWX    X1, d 
+;          SUBX      1,i 
+;          STWX     X2, d
+      
+;main2:    CALL       multip
+;          CPWX    1,i
+;          BREQ     Done
+;          SUBX     1,i
+;          STWX    X2,d 
+;          BR      main2
+ 
+;Done:    DECO    Y1, d
+;         BR return
+;         STOP
+;
+;multip:    LDWA    0,i         
+;        LDWX    0,i        
+
+;mloop:   CPWX  X2,d
+;        BREQ   stres
+;        ADDA  X1,d
+;        ADDX  1,i
+;        BR       mloop
+
+;stres:   STWA             Y1,d
+;       STWA             X1,d   
+;       RET ;;  
+;=========================================================================================================
+
 expo: deco 444,i
+
       br return
 
+
+
 bicovert: deco 555,i
+
           br return
 
+
+
 return: STOP
+
       .end
