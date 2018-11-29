@@ -23,7 +23,7 @@ main: stro number,d
       cpwa 2,i
       breq div1
       cpwa 3,i
-      breq facto
+      breq nfct4
       cpwa 4,i
       breq expo
       cpwa 5,i
@@ -63,9 +63,37 @@ STR1:          .ASCII "Undefined.\x00"
 
 div1_4:   STRO STR1,d
 ;==================================================================================================================
-facto: deco 333,i
-       br return
-
+;Briana
+nfct4: LDWA X1,d
+       STWA X1, d 
+       SUBA 1,i 
+       STWA Y2,d 
+       STWA X2, d 
+     
+nfct4_2: CALL nfct4_3
+         CPWX 1,i 
+         BREQ nfct4_6 ;while(A != 1) 
+         SUBX 1,i 
+         STWX Y2,d 
+         BR nfct4_2
+       
+nfct4_3: LDWA 0,i 
+         LDWX 0,i 
+       
+nfct4_4: CPWX Y2,d 
+         BREQ nfct4_5 ;while(X != X1) 
+           
+         ADDA X1,d 
+         ADDX 1,i 
+         BR nfct4_4 
+            
+nfct4_5: STWA Y1,d 
+         STWA X1, d 
+         RET 
+     
+nfct4_6: DECO Y1, d 
+         br return
+;=========================================================================================================
 expo: deco 444,i
       br return
 
