@@ -1,0 +1,74 @@
+br main
+;=======================================================================
+X1: .BLOCK 2
+X2: .BLOCK 2
+Y1: .BLOCK 2
+Y2: .BLOCK 2
+calc: .BLOCK 2
+
+number: .ASCII "Enter a number \x00"
+function: .ASCII "Enter 1 to multiply, Enter 2 to divide, Enter 3 for N factorial, Enter 4 for exponentation, Enter 5 to convert to binary \x00"
+divide: .ASCII "Enter a 2nd number to divide by \x00"
+multi: .ASCII "Enter a 2nd number to multiply by \x00"
+expon: .ASCII "Enter a number to raise to a power \x00"
+remain: .ASCII " Remainder: \x00"
+;=================================================================
+main: stro number,d
+      deci X1,d
+      stro function,d
+      deci calc,d
+      ldwa calc,d
+      cpwa 1,i
+      breq mult
+      cpwa 2,i
+      breq div1
+      cpwa 3,i
+      breq facto
+      cpwa 4,i
+      breq expo
+      cpwa 5,i
+      breq bicovert
+
+mult: deco 111,i
+      br return
+;====================================================================================================
+;Ayo
+div1: stro divide,d
+      deci X2,d
+      CPWA 0,i; Checks if you are dividing by 0.
+      BREQ div4
+
+div2: CPWA X1,d
+      BRGT div3
+         
+      ADDA X2,d
+      ADDX 1,i
+      br div2
+
+div3: STWX Y1,d
+      SUBA X2, d
+      STWA Y2, d
+      LDWA X1, d 
+      SUBA Y2, d
+      STWA Y2, d 
+      DECO Y1,d
+      stro remain,d
+      DECO Y2,d
+      br return
+
+div4: LDWX -1, i
+      STWX Y1, d
+      DECO Y1, d; If the value in Y1 is a negative 1, then print you cannot divide by 0
+      br return
+;==================================================================================================================
+facto: deco 333,i
+       br return
+
+expo: deco 444,i
+      br return
+
+bicovert: deco 555,i
+          br return
+
+return: STOP
+      .end
