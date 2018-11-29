@@ -33,33 +33,35 @@ mult: deco 111,i
       br return
 ;====================================================================================================
 ;Ayo
-div1: stro divide,d
-      deci X2,d
-      CPWA 0,i; Checks if you are dividing by 0.
-      BREQ div4
+div1:    STRO divide,d
+         DECI X2,d
+         LDWA X2,d
+         LDWX 0,i
+   
+         CPWA 0,i
+         BREQ div1_4
 
-div2: CPWA X1,d
-      BRGT div3
+div1_2:  CPWA X1,d 
+         BRGT div1_3
          
-      ADDA X2,d
-      ADDX 1,i
-      br div2
+         ADDA X2,d
+         ADDX 1,i
+         br div1_2
 
-div3: STWX Y1,d
-      SUBA X2, d
-      STWA Y2, d
-      LDWA X1, d 
-      SUBA Y2, d
-      STWA Y2, d 
-      DECO Y1,d
-      stro remain,d
-      DECO Y2,d
-      br return
+div1_3:  STWX Y1,d 
+         SUBA X2, d
+         STWA Y2, d
+         LDWA X1, d 
+         SUBA Y2, d
+         STWA Y2, d
+         DECO Y1,d
+         STRO remain,d
+         DECO Y2,d
+         br return
 
-div4: LDWX -1, i
-      STWX Y1, d
-      DECO Y1, d; If the value in Y1 is a negative 1, then print you cannot divide by 0
-      br return
+STR1:          .ASCII "Undefined.\x00"
+
+div1_4:   STRO STR1,d
 ;==================================================================================================================
 facto: deco 333,i
        br return
