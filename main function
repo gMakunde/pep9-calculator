@@ -159,14 +159,12 @@ und:   STRO ERROR,d
 
 ;==================================================================================================================
 ;Rose
-div3:   STRO divide,d
-        DECI X2,d
-         LDWX    X2,d
+div3:    LDWX    X2,d
          CPWX    0,i
-         BREQ    div3err
+         BREQ    err
 
 
-div3main:    LDWA    X1,d	
+main:    LDWA    X1,d	
          STWA    Y1,d
          LDWA    X2,d
          STWA    Y2,d
@@ -175,30 +173,30 @@ div3main:    LDWA    X1,d
          LDWA    Y2,d
 
          CPWX    Y1,d
-         BREQ    div3zero
+         BREQ    zero
 
-div3loop:    CPWA    Y1,d    
-         BRLT    div3prnt          	
+loop:    CPWA    Y1,d    
+         BRLT    print          	
 
          SUBA    Y1,d 		
          STWA    Y2,d
          ADDX    1,i	
-         BR      div3loop
+         BR      loop
 
-div3str1:            .ASCII "Error\x00"
-div3spc:             .ASCII " \x00"
-div3str2:            .ASCII "Remainder:\x00"
+str1:            .ASCII "Error\x00"
+spc:             .ASCII " \x00"
+str2:            .ASCII "Remainder:\x00"
 
-div3zero:    STWX    Y2,d
+zero:    STWX    Y2,d
 
-div3prnt:   STWX    Y1,d
+print:   STWX    Y1,d
          DECO    Y1,d
-         STRO    div3spc,d
-         STRO    div3str2,d
+         STRO    spc,d
+         STRO    str2,d
          DECO    Y2,d      
          STOP
 
-div3err:     STRO div3str1,d 
+err:     STRO str1,d
 ;=========================================================================================
 ; Maya
 div4:   STRO divide,d
