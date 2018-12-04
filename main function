@@ -23,7 +23,7 @@ main: stro number,d
       cpwa 2,i
       breq div2
       cpwa 3,i
-      breq nfact2
+      breq nfct3
       cpwa 4,i
       breq exp2
       cpwa 5,i
@@ -289,7 +289,77 @@ nfact2Lo: CPWX X2,d
 nfact2St: STWA Y1,d
        STWA X1,d
        ret   
+;==============================================================================================
+;Amir
+Number: .BLOCK 2 
+Result: .BLOCK 2
+Store:  .BLOCK 2
+
+         
+nfct3:    LDWA 5, i
+         STWA Number, d
+      
+
+nfct3_2:   CPWA 1,i
+         BREQ nfct3_6
+         SUBA 1,i
+         STWA Store,d
+        
+nfct3_3:     LDWA 0,i
+          LDWX 0,i
+          br nfct3_4
+
+nfct3_4:    CPWX Store,d
+          BREQ nfct3_5
+           
+          ADDA Number,d
+          ADDX 1, i
+          br nfct3_4 
+
+         
+nfct3_5:   STWA Result,d
+         LDWX Result, d
+         STWX Number, d
+         LDWA Store, d
+         br nfct3_2 
+      
+nfct3_6: DECO Number, d
+         br return
 ;=========================================================================================================
+;Ben
+exp1:    STRO expon,d
+         DECI X2,d
+         LDWA    X1, d
+         STWA    X1, d
+         STWA    Y1, d
+         LDWX    X2, d
+         STWX    X2, d
+         LDWX    0, i
+         LDWA    0, i 
+
+exp1mlop:   CPWX      1, i
+         BRNE    exp1strt
+         BR      exp1fini
+
+exp1strt:    LDWA    0, i   
+          LDWX    0, i   
+
+exp1elop:    CPWX       X1, d 
+          BREQ      exp1strs
+          ADDA      Y1, d
+          ADDX      1, i  
+          BR        exp1elop
+
+exp1strs:   STWA     Y1, d
+         LDWX     X2, d
+         SUBX     1, i
+         STWX     X2, d
+         LDWA     X1, d
+         br       exp1mlop
+
+exp1fini:    DECO Y1,  d
+           br return
+;===============================================================
 ;Quinlan
 exp2: STRO expon,d
       DECI X2,d
