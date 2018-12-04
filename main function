@@ -6,11 +6,11 @@ Y1: .BLOCK 2
 Y2: .BLOCK 2
 calc: .BLOCK 2
 
-number: .ASCII "Enter a number \x00"
-function: .ASCII "Enter 1 to multiply, Enter 2 to divide, Enter 3 for N factorial, Enter 4 for exponentation, Enter 5 to convert to binary \x00"
-divide: .ASCII "Enter a 2nd number to divide by \x00"
-multi: .ASCII "Enter a 2nd number to multiply by \x00"
-expon: .ASCII "Enter a number to raise to a power \x00"
+number: .ASCII "Enter a number: \x00"
+function: .ASCII "Enter 1 to multiply, Enter 2 to divide, Enter 3 for N factorial, Enter 4 for exponentation, Enter 5 to convert to binary: \x00"
+divide: .ASCII "Enter a 2nd number to divide by: \x00"
+multi: .ASCII "Enter a 2nd number to multiply by: \x00"
+expon: .ASCII "Enter a number to raise to a power: \x00"
 remain: .ASCII " Remainder: \x00"
 ;=================================================================
 main: stro number,d
