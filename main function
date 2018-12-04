@@ -294,7 +294,7 @@ Result: .BLOCK 2
 Store:  .BLOCK 2
 
          
-nfct3:    LDWA 5, i
+nfct3:    LDWA X1, d
          STWA Number, d
       
 
