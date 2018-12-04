@@ -62,40 +62,39 @@ mul1OUTR: DECO    mul1RES,d
           br return 
 ;===================================================================================
 ;Somto
+
 mul3: STRO multi,d
       DECI X2,d
-      LDWA X1,d
-      LDWX 0,i 
-      
+      LDWX X1,d  
+      CPWX 0,i
+      BREQ STR
+      LDWA X2,d 
       CPWA 0,i
-      BREQ mul3STR
-      LDWA X2,d
-      CPWA 0,i
-      BREQ mul3STR
-      BR mul3loop
+      BREQ STR
+      BRLT X2neg
+      BRGT X2pos
 
-mul3loop: CPWA 0,i
-          BRLT mul3X2ng
-          BRGT mul3X2ps
+X2pos:LDWA 0,i
+      LDWX 0,i
 
-mul3X2ps: LDWA 0,i
-          LDWX 0,i
-mul3adps: ADDA X1,d
-          ADDX 1,i
-          CPWX X2,d
-          BRNE mul3adps
-          BR mul3STR
+adpos:ADDX X1,d
+      ADDA 1,i 
+      CPWA X2,d
+      BRNE adpos
+      BR STR
 
-mul3X2ng: LDWA 0,i
-          LDWX 0,i
-mul3sbng: ADDA X1,d
-          SUBX 1,i
-          CPWX X2,d
-          BRNE mul3sbng
-          NEGA
+X2neg:LDWA 0,i
+      LDWX 0,i
 
-mul3STR: DECO Y1,d
-         br return
+sbneg:ADDX X1,d
+      SUBA 1,i
+      CPWA X2,d
+      BRNE sbneg 
+      NEGX 
+
+STR: STWX Y1,d
+     DECO Y1,d
+     br return
 ;====================================================================================================
 ;Ayo
 div1:    STRO divide,d
