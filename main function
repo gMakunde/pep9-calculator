@@ -19,15 +19,47 @@ main: stro number,d
       deci calc,d
       ldwa calc,d
       cpwa 1,i
-      breq mul3
+      breq mul1
       cpwa 2,i
-      breq div3
+      breq div2
       cpwa 3,i
       breq nfact2
       cpwa 4,i
       breq exp2
       cpwa 5,i
-      breq d2b1 
+      breq d2b1
+;==============================================================================
+;Olusegun
+mul1RES:  .BLOCK  2
+
+mul1:    LDWA     0,i          
+         STWA     mul1RES,d  
+         STRO multi,d
+         DECI X2,d    
+         breq    mul1OUTR
+         brlt    mul1X2ng
+
+mul1X2ps:LDWA    0,i
+         LDWX    0,i
+
+mul1adps:ADDA    X1,d 
+         ADDX    1,i
+         CPWX    X2,d
+         BRNE    mul1adps
+         BR      mul1STR
+
+mul1X2ng:LDWA    0,i
+         LDWX    0,i
+mul1sbng:ADDA    X1,d
+         SUBX    1,i
+         CPWX    X2,d
+         BRNE    mul1sbng
+         NEGA
+
+mul1STR: STWA     mul1RES,d       
+
+mul1OUTR: DECO    mul1RES,d     
+          br return 
 ;===================================================================================
 ;Somto
 mul3: STRO multi,d
@@ -99,29 +131,31 @@ div1_4:   STRO STR1,d
 ; Joseph
 div2:    STRO divide,d
          DECI X2,d
-         LDWA X1,d
+         LDWA X2,d
          LDWX 0,i
          CPWA 0,i
          BREQ und
 
-update:  CPWA X1,d
-         BRGT loop
-         ADDA 1,i
-         br update
+update:   CPWA X1,d
+          BRGT loop
+          ADDA X2,d
+          ADDX 1,i
+          br update
 
-loop:    STWX Y1,d
-         SUBA X2,d 
-         STWA Y2,d
-         LDWA X1,d
-         SUBA Y2,d
-         STWA Y2,d
-         DECO Y1,d
-         STRO remain,d
-         DECO Y2,d
-         br return
-ERROR:   .ASCII "Undefined- cannot divide by zero\x00"
+loop:   STWX Y1,d
+        SUBA X2,d
+        STWA Y2,d
+        LDWA X1,d
+        SUBA Y2,d
+        STWA Y2,d
+        DECO Y1,d
+        STRO remain,d
+        DECO Y2,d
+        br return
 
-und:     STRO ERROR,d
+ERROR:    .ASCII "Undefined-cannot divide by zero.\x00"
+
+und:   STRO ERROR,d
 
 ;==================================================================================================================
 ;Rose
