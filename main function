@@ -19,18 +19,51 @@ main: stro number,d
       deci calc,d
       ldwa calc,d
       cpwa 1,i
-      breq mult
+      breq mul3
       cpwa 2,i
-      breq div2
+      breq div3
       cpwa 3,i
       breq nfact2
       cpwa 4,i
       breq exp2
       cpwa 5,i
-      breq bicovert
+      breq d2b1 
+;===================================================================================
+;Somto
+mul3: STRO multi,d
+      DECI X2,d
+      LDWA X1,d
+      LDWX 0,i 
+      
+      CPWA 0,i
+      BREQ mul3STR
+      LDWA X2,d
+      CPWA 0,i
+      BREQ mul3STR
+      BR mul3loop
 
-mult: deco 111,i
-      br return
+mul3loop: CPWA 0,i
+          BRLT mul3X2ng
+          BRGT mul3X2ps
+
+mul3X2ps: LDWA 0,i
+          LDWX 0,i
+mul3adps: ADDA X1,d
+          ADDX 1,i
+          CPWX X2,d
+          BRNE mul3adps
+          BR mul3STR
+
+mul3X2ng: LDWA 0,i
+          LDWX 0,i
+mul3sbng: ADDA X1,d
+          SUBX 1,i
+          CPWX X2,d
+          BRNE mul3sbng
+          NEGA
+
+mul3STR: DECO Y1,d
+         br return
 ;====================================================================================================
 ;Ayo
 div1:    STRO divide,d
@@ -91,6 +124,48 @@ ERROR:   .ASCII "Undefined- cannot divide by zero\x00"
 und:     STRO ERROR,d
 
 ;==================================================================================================================
+;Rose
+div3:   STRO divide,d
+        DECI X2,d
+         LDWX    X2,d
+         CPWX    0,i
+         BREQ    div3err
+
+
+div3main:    LDWA    X1,d	
+         STWA    Y1,d
+         LDWA    X2,d
+         STWA    Y2,d
+
+         LDWX    0,i  
+         LDWA    Y2,d
+
+         CPWX    Y1,d
+         BREQ    div3zero
+
+div3loop:    CPWA    Y1,d    
+         BRLT    div3prnt          	
+
+         SUBA    Y1,d 		
+         STWA    Y2,d
+         ADDX    1,i	
+         BR      div3loop
+
+div3str1:            .ASCII "Error\x00"
+div3spc:             .ASCII " \x00"
+div3str2:            .ASCII "Remainder:\x00"
+
+div3zero:    STWX    Y2,d
+
+div3prnt:   STWX    Y1,d
+         DECO    Y1,d
+         STRO    div3spc,d
+         STRO    div3str2,d
+         DECO    Y2,d      
+         STOP
+
+div3err:     STRO div3str1,d 
+;=========================================================================================
 ; Maya
 div4:   STRO divide,d
         DECI X2,d
@@ -215,8 +290,28 @@ exp2strs: STWA Y1,d
 exp2done: DECO Y1,  d
       br return
 ;================================================================================================
-bicovert: deco 555,i
-          br return
+;Donald
+d2b1: ldwa 0,i
+      ldwx    0,i         
+d2b1agan:   stwx    Y1,d         
+
+         ldwa   X1,d   
+         asla
+         stwa    X1,d
+         brc    d2b1zero
+         
+         stro   d2b1hzer,d       
+         br     d2b1updt 
+
+d2b1zero:    stro   d2b1chon,d      
+
+d2b1updt:  ldwx    Y1,d      
+         addx    1,i       
+         cpwx    16,i    
+         brlt    d2b1agan     
+d2b1done:    br return
+d2b1chon:   .ASCII   "1\x00"   
+d2b1hzer:  .ASCII   "0\x00"
 
 return: STOP
       .end
