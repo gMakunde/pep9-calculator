@@ -391,6 +391,44 @@ exp2strs: STWA Y1,d
 exp2done: DECO Y1,  d
       br return
 ;================================================================================================
+;Shawn
+
+exp4:    STRO    expon,d
+         DECI    X2,d
+         LDWA    X1,d
+         LDWX    X2,d
+         CPWX    0,i
+         BREQ    zero
+         CPWX    1,i
+         BREQ    result
+         STWA    Y2,d
+         LDWA    0,i
+         LDWX    0,i
+         br      loop1
+
+zero:    DECO    1,i
+         br      return
+
+loop1:   CPWX    Y2,d
+         BREQ    loop2
+         ADDA    X1,d
+         ADDX    1,i
+         BR      loop1
+
+loop2:   STWA    X1,d
+         LDWX    X2,d
+         CPWX    2,i
+         BREQ    result
+         SUBX    1,i
+         STWX    X2,d
+         LDWA    0,i
+         LDWX    0,i
+         BR      loop1
+
+result:  STWA    Y1,d 
+         DECO    Y1,d
+         br return
+;================================================================================================
 ;Donald
 d2b1: ldwa 0,i
       ldwx    0,i         
