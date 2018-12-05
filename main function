@@ -60,6 +60,47 @@ mul1STR: STWA     mul1RES,d
 
 mul1OUTR: DECO    mul1RES,d     
           br return 
+;==================================================================================
+; Marc
+input:   stro multi,d
+         deci X2,d
+         ldwa X1,d
+         breq return
+         ldwx X2,d
+         brgt x2even
+         brlt x2odd
+         breq mul2ret
+
+
+
+x2even:  ldwa 0,i
+         ldwx 0,i
+evenmul: adda X1,d
+         addx X2,d
+shift1:  asla
+         subx 1,i
+         cpwx X2,d
+         brne shift1
+         br   str
+
+
+
+x2odd:   ldwa 0,i
+         ldwx 0,i
+oddmul:  adda X1,d
+         addx X2,d
+shift2:  asla
+         subx 1,i
+         cpwx X2,d
+         brne shift2
+add:     adda X1,d
+
+
+str:     stwa Y1,d
+         
+
+mul2ret:  deco Y1,d
+         br return
 ;===================================================================================
 ;Somto
 
