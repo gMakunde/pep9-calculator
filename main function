@@ -496,5 +496,39 @@ d2b1done:    br return
 d2b1chon:   .ASCII   "1\x00"   
 d2b1hzer:  .ASCII   "0\x00"
 
+;======================================================================================================
+; Malik
+
+d2b3set: LDWX    0,i    ;set x-register
+         LDWA    X1,d   ;set a -register
+         STWA    X1,d
+
+d2b3:    CPWA    0,i         ;compares A-register to 0
+         BRGE    d2b3zero    ;if A-register >= 0 Branch
+         DECO    1,i         ;print 1 if not
+         BR  d2b3loop        
+
+d2b3zero:DECO    0,i         ;print 0
+
+                  
+d2b3loop:CPWX      15,i      ;compare 15 to what is in x-register
+         BREQ      d2b3done  ;if == 0, go to done.
+         ASLA 	           ;shift A-register to the left
+         BRC        d2b3add  
+        
+
+d2b3add: ADDX      1,i	
+         BR        d2b3
+
+d2b3oppo:LDWX    -32768,i    ;load value into x-register    
+         ANDX    X1,d        ;bitwise logical
+         BRNE    d2b3        ;If != 0, brance
+         DECO    0,i         ;otherwise print 0
+         
+         
+d2b3done: br return
+
+
+
 return: STOP
       .end
